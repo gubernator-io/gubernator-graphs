@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 	"os"
 	"regexp"
 	"strconv"
@@ -11,11 +10,6 @@ import (
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
 	"github.com/go-echarts/go-echarts/v2/types"
-)
-
-const (
-	plot1Name = "Array"
-	plot2Name = "Hash"
 )
 
 func main() {
@@ -27,41 +21,84 @@ func main() {
 	file.WriteString(`
 goos: darwin
 goarch: arm64
-pkg: github.com/gubernator-io/gubernator-graphs
-BenchmarkAccessStructure
-BenchmarkAccessStructure/Array_1
-BenchmarkAccessStructure/Array_1-10         	918694573	         1.299 ns/op
-BenchmarkAccessStructure/Hash_1
-BenchmarkAccessStructure/Hash_1-10          	457919066	         2.578 ns/op
-BenchmarkAccessStructure/Array_10
-BenchmarkAccessStructure/Array_10-10        	920779400	         1.290 ns/op
-BenchmarkAccessStructure/Hash_10
-BenchmarkAccessStructure/Hash_10-10         	225909036	         5.217 ns/op
-BenchmarkAccessStructure/Array_100
-BenchmarkAccessStructure/Array_100-10       	946178533	         1.276 ns/op
-BenchmarkAccessStructure/Hash_100
-BenchmarkAccessStructure/Hash_100-10        	217348762	         5.523 ns/op
-BenchmarkAccessStructure/Array_1000
-BenchmarkAccessStructure/Array_1000-10      	942012274	         1.269 ns/op
-BenchmarkAccessStructure/Hash_1000
-BenchmarkAccessStructure/Hash_1000-10       	192828970	         6.076 ns/op
-BenchmarkAccessStructure/Array_10000
-BenchmarkAccessStructure/Array_10000-10     	921357054	         1.270 ns/op
-BenchmarkAccessStructure/Hash_10000
-BenchmarkAccessStructure/Hash_10000-10      	42759596	        27.00 ns/op
-BenchmarkAccessStructure/Array_100000
-BenchmarkAccessStructure/Array_100000-10    	943079271	         1.268 ns/op
-BenchmarkAccessStructure/Hash_100000
-BenchmarkAccessStructure/Hash_100000-10     	37152421	        32.69 ns/op
-BenchmarkAccessStructure/Array_1000000
-BenchmarkAccessStructure/Array_1000000-10   	929155744	         1.290 ns/op
-BenchmarkAccessStructure/Hash_1000000
-BenchmarkAccessStructure/Hash_1000000-10    	23785140	        49.68 ns/op
+pkg: github.com/gubernator-io/gubernator/v2/bench
+BenchmarkWorkerPool
+BenchmarkWorkerPool/Read_1
+INFO[0000] Starting 10 Gubernator workers...            
+INFO[0003] Starting 10 Gubernator workers...            
+INFO[0007] Starting 10 Gubernator workers...            
+INFO[0010] Starting 10 Gubernator workers...            
+INFO[0015] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Read_1-10         	  471453	      2545 ns/op
+BenchmarkWorkerPool/Read_10
+INFO[0020] Starting 10 Gubernator workers...            
+INFO[0023] Starting 10 Gubernator workers...            
+INFO[0027] Starting 10 Gubernator workers...            
+INFO[0031] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Read_10-10        	   44229	     31061 ns/op
+BenchmarkWorkerPool/Read_100
+INFO[0036] Starting 10 Gubernator workers...            
+INFO[0040] Starting 10 Gubernator workers...            
+INFO[0044] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Read_100-10       	    4228	    338240 ns/op
+BenchmarkWorkerPool/Read_1000
+INFO[0049] Starting 10 Gubernator workers...            
+INFO[0053] Starting 10 Gubernator workers...            
+INFO[0058] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Read_1000-10      	     314	   3407452 ns/op
+BenchmarkWorkerPool/Read_10000
+INFO[0063] Starting 10 Gubernator workers...            
+INFO[0067] Starting 10 Gubernator workers...            
+INFO[0072] Starting 10 Gubernator workers...            
+INFO[0077] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Read_10000-10     	      34	  42071989 ns/op
+BenchmarkWorkerPool/Read_100000
+INFO[0083] Starting 10 Gubernator workers...            
+INFO[0088] Starting 10 Gubernator workers...            
+INFO[0093] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Read_100000-10    	       3	 411317972 ns/op
+BenchmarkWorkerPool/Write_1
+INFO[0099] Starting 10 Gubernator workers...            
+INFO[0100] Starting 10 Gubernator workers...            
+INFO[0101] Starting 10 Gubernator workers...            
+INFO[0103] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Write_1-10        	  504410	      2529 ns/op
+BenchmarkWorkerPool/Write_10
+INFO[0105] Starting 10 Gubernator workers...            
+INFO[0107] Starting 10 Gubernator workers...            
+INFO[0108] Starting 10 Gubernator workers...            
+INFO[0109] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Write_10-10       	   50311	     30179 ns/op
+BenchmarkWorkerPool/Write_100
+INFO[0112] Starting 10 Gubernator workers...            
+INFO[0114] Starting 10 Gubernator workers...            
+INFO[0115] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Write_100-10      	    2990	    337452 ns/op
+BenchmarkWorkerPool/Write_1000
+INFO[0117] Starting 10 Gubernator workers...            
+INFO[0119] Starting 10 Gubernator workers...            
+INFO[0120] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Write_1000-10     	     307	   3521005 ns/op
+BenchmarkWorkerPool/Write_10000
+INFO[0123] Starting 10 Gubernator workers...            
+INFO[0124] Starting 10 Gubernator workers...            
+INFO[0126] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Write_10000-10    	      38	  32510420 ns/op
+BenchmarkWorkerPool/Write_100000
+INFO[0129] Starting 10 Gubernator workers...            
+INFO[0130] Starting 10 Gubernator workers...            
+INFO[0133] Starting 10 Gubernator workers...            
+BenchmarkWorkerPool/Write_100000-10   	       3	 417362694 ns/op
 PASS
 	`)
 
+	const (
+		plot1Name = "Read"
+		plot2Name = "Write"
+	)
+
 	// Regular expression to match benchmark lines
-	re := regexp.MustCompile(`Benchmark.*/(.*)_(\d+)-\d+\s+(\d+)\s+(\d+\.\d+) ns/op`)
+	re := regexp.MustCompile(`Benchmark\w+/(\w+)_(\d+)-\d+\s+(\d+)\s+(\d+) ns/op`)
 
 	scanner := bufio.NewScanner(&file)
 	var xAxis []string
@@ -70,10 +107,9 @@ PASS
 		matches := re.FindStringSubmatch(line)
 		if len(matches) == 5 {
 			perOp, _ := strconv.ParseFloat(matches[4], 64)
-			//perOp = perOp / 1000000
+			perOp = perOp / 1000000
 			//perOp = perOp / 1000
 
-			fmt.Printf("Match: '%s'\n", matches[1])
 			if matches[1] == plot1Name {
 				xAxis = append(xAxis, matches[2])
 				plot1 = append(plot1, opts.LineData{Value: perOp})
@@ -94,7 +130,7 @@ PASS
 			Subtitle: "Performance comparison at different concurrency",
 		}),
 		charts.WithYAxisOpts(opts.YAxis{
-			Name:         "NanoSeconds",
+			Name:         "Milliseconds",
 			NameLocation: "center",
 			NameGap:      40,
 		}, 0),
@@ -109,7 +145,13 @@ PASS
 		AddSeries(plot1Name, plot1).
 		AddSeries(plot2Name, plot2).
 		SetSeriesOptions(
-			charts.WithLineChartOpts(opts.LineChart{Smooth: true}),
+			charts.WithLabelOpts(opts.Label{
+				//Show: true,
+			}),
+			charts.WithLineChartOpts(opts.LineChart{
+				Smooth:     true,
+				ShowSymbol: true,
+			}),
 		)
 
 	// Save the chart
