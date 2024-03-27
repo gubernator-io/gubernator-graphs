@@ -3,12 +3,19 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"github.com/go-echarts/go-echarts/v2/charts"
-	"github.com/go-echarts/go-echarts/v2/opts"
-	"github.com/go-echarts/go-echarts/v2/types"
+	"fmt"
 	"os"
 	"regexp"
 	"strconv"
+
+	"github.com/go-echarts/go-echarts/v2/charts"
+	"github.com/go-echarts/go-echarts/v2/opts"
+	"github.com/go-echarts/go-echarts/v2/types"
+)
+
+const (
+	plot1Name = "Array"
+	plot2Name = "Hash"
 )
 
 func main() {
@@ -54,7 +61,7 @@ PASS
 	`)
 
 	// Regular expression to match benchmark lines
-	re := regexp.MustCompile(`BenchmarkAccessStructure/(Array|Hash)_(\d+)-\d+\s+(\d+)\s+(\d+\.\d+) ns/op`)
+	re := regexp.MustCompile(`Benchmark.*/(.*)_(\d+)-\d+\s+(\d+)\s+(\d+\.\d+) ns/op`)
 
 	scanner := bufio.NewScanner(&file)
 	var xAxis []string
@@ -62,14 +69,16 @@ PASS
 		line := scanner.Text()
 		matches := re.FindStringSubmatch(line)
 		if len(matches) == 5 {
-			nsPerOp, _ := strconv.ParseFloat(matches[4], 64)
-			//msPerOp := nsPerOp / 1000000
+			perOp, _ := strconv.ParseFloat(matches[4], 64)
+			//perOp = perOp / 1000000
+			//perOp = perOp / 1000
 
-			if matches[1] == "Array" {
+			fmt.Printf("Match: '%s'\n", matches[1])
+			if matches[1] == plot1Name {
 				xAxis = append(xAxis, matches[2])
-				plot1 = append(plot1, opts.LineData{Value: nsPerOp})
-			} else if matches[1] == "Hash" {
-				plot2 = append(plot2, opts.LineData{Value: nsPerOp})
+				plot1 = append(plot1, opts.LineData{Value: perOp})
+			} else if matches[1] == plot2Name {
+				plot2 = append(plot2, opts.LineData{Value: perOp})
 			}
 		}
 	}
@@ -81,13 +90,13 @@ PASS
 	line.SetGlobalOptions(
 		charts.WithInitializationOpts(opts.Initialization{Theme: types.ThemeWesteros}),
 		charts.WithTitleOpts(opts.Title{
-			Title:    "Benchmark Results: Array vs Hash",
-			Subtitle: "Performance comparison in ns/op",
+			Title:    "Concurrency Benchmark",
+			Subtitle: "Performance comparison at different concurrency",
 		}),
 		charts.WithYAxisOpts(opts.YAxis{
-			Name:         "Nanoseconds",
+			Name:         "NanoSeconds",
 			NameLocation: "center",
-			NameGap:      30,
+			NameGap:      40,
 		}, 0),
 		charts.WithXAxisOpts(opts.XAxis{
 			Name:         "Iterations",
@@ -97,8 +106,8 @@ PASS
 	)
 
 	line.SetXAxis(xAxis).
-		AddSeries("Array", plot1).
-		AddSeries("Hash", plot2).
+		AddSeries(plot1Name, plot1).
+		AddSeries(plot2Name, plot2).
 		SetSeriesOptions(
 			charts.WithLineChartOpts(opts.LineChart{Smooth: true}),
 		)
