@@ -356,7 +356,8 @@ PASS
 	)
 
 	// Regular expression to match benchmark lines
-	re := regexp.MustCompile(`Benchmark\w+/(\w+)_(\d+)-\d+\s+(\d+)\s+(\d+) ns/op`)
+	//re := regexp.MustCompile(`Benchmark\w+/(\w+)_(\d+)-\d+\s+(\d+)\s+(\d+) ns/op`)
+	re := regexp.MustCompile(`Benchmark\w+/(\w+)_(\d+)-\d+\s+(\d+)\s+(\d+(\.\d+|))\s+ns/op\s*(\d+)\s+ops/s`)
 
 	scanner := bufio.NewScanner(&file)
 	var xAxis []string
